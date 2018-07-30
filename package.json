@@ -3,7 +3,8 @@
   "version": "0.1.0",
   "main": "index.js",
   "scripts": {
-    "test": "jest"
+    "test": "jest",
+    "build": "rollup -c"
   },
   "repository": {
     "type": "git",
@@ -21,5 +22,11 @@
   "bugs": {
     "url": "https://github.com/oliverviljamaa/angularjs-test/issues"
   },
-  "homepage": "https://github.com/oliverviljamaa/angularjs-test#readme"
+  "homepage": "https://github.com/oliverviljamaa/angularjs-test#readme",
+  "devDependencies": {
+    "babel-core": "^6.26.3",
+    "babel-preset-env": "^1.7.0",
+    "rollup": "^0.63.4",
+    "rollup-plugin-babel": "^3.0.7"
+  }
 }
