@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "main": "index.js",
   "scripts": {
+    "precommit": "lint-staged",
     "test": "eslint src/",
     "build": "rollup -c"
   },
@@ -31,8 +32,13 @@
     "eslint-config-prettier": "^2.9.0",
     "eslint-plugin-import": "^2.13.0",
     "eslint-plugin-prettier": "^2.6.2",
+    "husky": "^0.14.3",
+    "lint-staged": "^7.2.0",
     "prettier": "^1.14.0",
     "rollup": "^0.63.4",
     "rollup-plugin-babel": "^3.0.7"
+  },
+  "lint-staged": {
+    "src/**/*.js": ["eslint --fix src/", "git add"]
   }
 }
