@@ -1,0 +1,25 @@
+{
+  "name": "angularjs-test",
+  "version": "0.1.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/oliverviljamaa/angularjs-test.git"
+  },
+  "keywords": [
+    "angularjs",
+    "angular",
+    "test",
+    "testing",
+    "unit"
+  ],
+  "author": "Oliver Viljamaa <oliver.viljamaa@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/oliverviljamaa/angularjs-test/issues"
+  },
+  "homepage": "https://github.com/oliverviljamaa/angularjs-test#readme"
+}
