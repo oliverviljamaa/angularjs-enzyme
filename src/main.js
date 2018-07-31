@@ -1,3 +1,3 @@
-const world = 'world';
+/* eslint-disable import/prefer-default-export */
 
-export default `Hello ${world}`;
+export { default as mockComponent } from './mockComponent';

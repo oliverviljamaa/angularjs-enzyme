@@ -1,4 +1,6 @@
+import resolve from 'rollup-plugin-node-resolve';
 import babel from 'rollup-plugin-babel';
+import cleanup from 'rollup-plugin-cleanup';
 
 export default {
   input: 'src/main.js',
@@ -7,5 +9,5 @@ export default {
     name: 'angularjsTest',
     file: 'dist/angularjs-test.js',
   },
-  plugins: [babel({ exclude: 'node_modules/**' })],
+  plugins: [resolve(), babel({ exclude: 'node_modules/**' }), cleanup()],
 };
