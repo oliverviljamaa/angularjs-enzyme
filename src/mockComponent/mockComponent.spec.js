@@ -89,14 +89,14 @@ describe('Mock component', () => {
       mount(
         `
         <div>Something else</div>
-        <some-component on-some-prop-change="onSomePropChange()"></some-component>
+        <some-component on-some-prop-change="onSomePropChange($event)"></some-component>
         `,
         props,
       );
 
       expect(onSomePropChange).not.toBeCalled();
-      mockedComponent.simulate('somePropChange');
-      expect(onSomePropChange).toBeCalled();
+      mockedComponent.simulate('somePropChange', 'New value');
+      expect(onSomePropChange).toBeCalledWith('New value');
     });
   });
 
