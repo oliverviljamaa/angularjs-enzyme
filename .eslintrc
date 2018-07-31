@@ -1,3 +1,14 @@
 {
-  "extends": ["airbnb-base", "plugin:prettier/recommended"]
+  "extends": ["airbnb-base", "plugin:prettier/recommended"],
+  "env": {
+    "jest": true
+  },
+  "rules": {
+    "no-underscore-dangle": "off",
+    "no-use-before-define": "off",
+    "no-param-reassign": "off"
+  },
+  "globals": {
+    "angular": false
+  }
 }
