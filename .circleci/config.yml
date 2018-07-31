@@ -1,0 +1,69 @@
+defaults: &defaults
+  working_directory: ~/angularjs-test
+  docker:
+    - image: circleci/node:10-browsers
+
+version: 2
+jobs:
+  build:
+    <<: *defaults
+    steps:
+      - checkout
+      - run:
+          name: Install dependencies
+          command: npm ci
+      - persist_to_workspace:
+          root: .
+          paths:
+            - '*'
+  test:
+    <<: *defaults
+    steps:
+      - attach_workspace:
+          at: ~/angularjs-test
+      - run:
+          name: Run tests
+          command: npm test
+  release:
+    <<: *defaults
+    steps:
+      - attach_workspace:
+          at: ~/angularjs-test
+      - run:
+          name: Release to GitHub
+          command: npm run release-to-github
+  publish:
+    <<: *defaults
+    steps:
+      - attach_workspace:
+          at: ~/angularjs-test
+      - run:
+          name: Build
+          command: npm run build
+      - run:
+          name: Set up npm token
+          command: echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" >> ~/.npmrc
+      - run:
+          name: Publish on npm
+          command: npm publish --access public
+
+workflows:
+  version: 2
+  install-test-release-publish:
+    jobs:
+      - build
+      - test:
+          requires:
+            - build
+      - publish:
+          requires:
+            - test
+          filters:
+            branches:
+              only: master
+      - release:
+          requires:
+            - publish
+          filters:
+            branches:
+              only: master

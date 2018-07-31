@@ -4,9 +4,11 @@
   "main": "index.js",
   "scripts": {
     "precommit": "lint-staged",
-    "test": "eslint src/ && jest",
+    "test": "npm run check-release-to-github && eslint src/ && jest",
     "test:watch": "jest --watch",
-    "build": "NODE_ENV=production rollup -c"
+    "build": "NODE_ENV=production rollup -c",
+    "check-release-to-github": "release-to-github-with-changelog-pre-release-checks",
+    "release-to-github": "release-to-github-with-changelog"
   },
   "repository": {
     "type": "git",
@@ -41,6 +43,7 @@
     "jsdom": "^11.11.0",
     "lint-staged": "^7.2.0",
     "prettier": "^1.14.0",
+    "release-to-github-with-changelog": "^1.2.0",
     "rollup": "^0.63.4",
     "rollup-plugin-babel": "^3.0.7",
     "rollup-plugin-cleanup": "^3.0.0",
