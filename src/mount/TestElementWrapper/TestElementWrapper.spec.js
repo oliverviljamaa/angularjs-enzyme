@@ -30,7 +30,7 @@ describe('Test element wrapper', () => {
   });
 
   describe('length', () => {
-    it('is how many nodes are in wrapper', () => {
+    it('is how many elements are in wrapper', () => {
       const button = wrapper.find('button');
       expect(button).toHaveLength(2);
     });
@@ -121,8 +121,8 @@ describe('Test element wrapper', () => {
     it('sets props and updates view to reflect them', () => {
       const template = `
         <some-component
-          title="$ctrl.title"
-          text="$ctrl.text"
+          title="$ctrl.titleFromParent"
+          text="$ctrl.textFromParent"
         ></some-component>
       `;
       wrapper = new TestElementWrapper(getAngularElement(template));
@@ -132,22 +132,22 @@ describe('Test element wrapper', () => {
 
       expect(title()).toBe('');
       expect(text()).toBe('');
-      wrapper.setProps({ title: 'A title', text: 'A text' });
+      wrapper.setProps({ titleFromParent: 'A title', textFromParent: 'A text' });
       expect(title()).toBe('A title');
       expect(text()).toBe('A text');
     });
   });
 
   function getAngularElement(template) {
-    let $scope;
+    let $rootScope;
     let angularElement;
 
     angular.mock.inject(($compile, $injector) => {
-      $scope = $injector.get('$rootScope').$new();
-      $scope.$ctrl = { callback };
-      angularElement = $compile(template)($scope);
+      $rootScope = $injector.get('$rootScope');
+      $rootScope.$ctrl = { callback };
+      angularElement = $compile(template)($rootScope);
     });
-    $scope.$digest();
+    $rootScope.$digest();
 
     return angularElement;
   }

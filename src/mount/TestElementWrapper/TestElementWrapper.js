@@ -26,13 +26,14 @@ export default class TestElementWrapper {
     };
 
     this.setProps = props => {
-      const controller = angularElement.isolateScope().$ctrl;
-      Object.entries(props).forEach(([key, value]) => {
-        controller[key] = value;
-      });
+      let $rootScope;
       angular.mock.inject($injector => {
-        $injector.get('$rootScope').$digest();
+        $rootScope = $injector.get('$rootScope');
       });
+      Object.entries(props).forEach(([key, value]) => {
+        $rootScope.$ctrl[key] = value;
+      });
+      $rootScope.$digest();
     };
   }
 }
