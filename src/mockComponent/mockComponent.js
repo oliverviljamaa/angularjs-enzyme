@@ -51,6 +51,7 @@ function withSimulate(mock) {
   mock.simulate = (event, data) => {
     const callbackName = `on${event[0].toUpperCase()}${event.slice(1)}`;
     mock._controller[callbackName]({ $event: data });
+    return mock;
   };
   return mock;
 }
