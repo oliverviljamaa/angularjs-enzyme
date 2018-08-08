@@ -83,8 +83,9 @@ describe('Mock component', () => {
   });
 
   describe('simulate', () => {
-    it('invokes callback', () => {
-      const onSomePropChange = jest.fn();
+    let onSomePropChange;
+    beforeEach(() => {
+      onSomePropChange = jest.fn();
       const props = { onSomePropChange };
       mount(
         `
@@ -93,10 +94,16 @@ describe('Mock component', () => {
         `,
         props,
       );
+    });
 
+    it('invokes callback', () => {
       expect(onSomePropChange).not.toBeCalled();
       mockedComponent.simulate('somePropChange', 'New value');
       expect(onSomePropChange).toBeCalledWith('New value');
+    });
+
+    it('returns itself for chaining', () => {
+      expect(mockedComponent.simulate('somePropChange', 'New value')).toBe(mockedComponent);
     });
   });
 
