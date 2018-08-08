@@ -1,16 +1,16 @@
 import TestElementWrapper from './TestElementWrapper';
 
 export default function mount(template, props) {
-  let $scope;
+  let $rootScope;
   let element;
 
   angular.mock.inject(($compile, $injector) => {
-    $scope = $injector.get('$rootScope').$new();
-    $scope.$ctrl = props;
+    $rootScope = $injector.get('$rootScope');
+    $rootScope.$ctrl = props;
 
-    element = $compile(template)($scope);
+    element = $compile(template)($rootScope);
   });
-  $scope.$digest();
+  $rootScope.$digest();
 
   return new TestElementWrapper(element);
 }
