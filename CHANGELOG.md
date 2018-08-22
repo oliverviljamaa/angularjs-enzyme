@@ -1,3 +1,6 @@
+# v0.2.1
+## Fix readme
+
 # v0.2.0
 ## Adds `mount`
 
