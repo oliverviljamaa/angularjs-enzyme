@@ -1,3 +1,8 @@
+# v0.3.0
+## Add `options.mockComponents` to `mount`
+
+See [README](README.md#mounttemplate-props-options--testelementwrapper).
+
 # v0.2.1
 ## Fix readme
 

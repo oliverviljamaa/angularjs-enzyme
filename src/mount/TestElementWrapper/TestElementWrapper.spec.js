@@ -3,6 +3,9 @@ import 'angular-mocks';
 
 import TestElementWrapper from '.';
 import mount from '..';
+import mockComponent from '../../mockComponent';
+
+jest.mock('../../mockComponent', () => jest.fn());
 
 describe('Test element wrapper', () => {
   describe('length', () => {
@@ -102,30 +105,27 @@ describe('Test element wrapper', () => {
   });
 
   describe('find', () => {
-    let wrapper;
-    beforeEach(() => {
-      wrapper = mount(`
-        <main>
-          <div class="wrong">
-            <a href="https://right.com">
-              Wrong
-            </a>
-          </div>
-          <div class="right">
-            <a href="https://wrong.com">
-              Wrong
-            </a>
-          </div>
-          <div class="right">
-            <a href="https://right.com">
-              Right
-            </a>
-          </div>
-        </main>
-      `);
-    });
-
     it('allows finding by any selector', () => {
+      const wrapper = mount(`
+      <main>
+        <div class="wrong">
+          <a href="https://right.com">
+            Wrong
+          </a>
+        </div>
+        <div class="right">
+          <a href="https://wrong.com">
+            Wrong
+          </a>
+        </div>
+        <div class="right">
+          <a href="https://right.com">
+            Right
+          </a>
+        </div>
+      </main>
+    `);
+
       const text = wrapper
         .find('.right a[href="https://right.com"]')
         .text()
@@ -135,9 +135,38 @@ describe('Test element wrapper', () => {
     });
 
     it('returns test element wrapper for chaining', () => {
+      const wrapper = mount(`
+        <main>
+          <a href="/link">Some title</a>
+        </main>
+      `);
       const links = wrapper.find('a');
 
       expect(links).toBeInstanceOf(TestElementWrapper);
+    });
+
+    it('returns mock with component name when component has been mocked and exists', () => {
+      angular
+        .module('childComponentModule', [])
+        .component('childComponent', { template: '<span>Child component content</span>' });
+      angular.mock.module('childComponentModule');
+
+      mockComponent.mockImplementation(name => `mock of ${name}`);
+
+      const wrapper = mount(
+        `
+        <main>
+          <child-component></child-component>
+        </main>
+      `,
+        {},
+        { mockComponents: ['child-component'] },
+      );
+
+      const childComponent = wrapper.find('child-component');
+
+      expect(childComponent).not.toBeInstanceOf(TestElementWrapper);
+      expect(childComponent).toBe('mock of child-component');
     });
   });
 

@@ -107,6 +107,17 @@ describe('Mock component', () => {
     });
   });
 
+  it('has template of <!-- mock of {{ name }} -->', () => {
+    const component = mount(`
+      <main>
+        <div>Something else</div>
+        <some-component></some-component>
+      </main>
+    `);
+
+    expect(component.find('some-component').html()).toBe('<!-- mock of some-component -->');
+  });
+
   function mount(template, props) {
     Object.assign($scope, props);
 

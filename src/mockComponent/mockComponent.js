@@ -7,8 +7,15 @@ export default function mockComponent(kebabCaseName) {
     $provide.decorator(`${name}Directive`, $delegate => {
       const component = $delegate[0];
 
-      component.controller = function controller() {
-        mock._controller = this;
+      if (component.templateUrl) {
+        delete component.templateUrl;
+      }
+      component.template = `<!-- mock of ${kebabCaseName} -->`;
+
+      component.controller = class {
+        constructor() {
+          mock._controller = this;
+        }
       };
 
       return $delegate;

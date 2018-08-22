@@ -1,6 +1,14 @@
 import TestElementWrapper from './TestElementWrapper';
+import mockComponent from '../mockComponent';
 
-export default function mount(template, props) {
+export default function mount(template, props = {}, { mockComponents = [] } = {}) {
+  const mockedComponents = getMockedComponents(mockComponents);
+  const angularElement = getAngularElement(template, props);
+
+  return new TestElementWrapper(angularElement, mockedComponents);
+}
+
+function getAngularElement(template, props) {
   let $rootScope;
   let element;
 
@@ -12,5 +20,15 @@ export default function mount(template, props) {
   });
   $rootScope.$digest();
 
-  return new TestElementWrapper(element);
+  return element;
+}
+
+function getMockedComponents(names) {
+  return names.reduce(
+    (components, name) => ({
+      ...components,
+      [name]: mockComponent(name),
+    }),
+    {},
+  );
 }
