@@ -6,8 +6,8 @@ export default {
   input: 'src/main.js',
   output: {
     format: 'umd',
-    name: 'angularjsTest',
-    file: 'dist/angularjs-test.js',
+    name: 'angularjsEnzyme',
+    file: 'dist/angularjs-enzyme.js',
   },
   plugins: [resolve(), babel({ exclude: 'node_modules/**' }), cleanup()],
 };

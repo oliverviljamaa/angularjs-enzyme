@@ -1,5 +1,5 @@
 defaults: &defaults
-  working_directory: ~/angularjs-test
+  working_directory: ~/angularjs-enzyme
   docker:
     - image: circleci/node:10-browsers
 
@@ -20,7 +20,7 @@ jobs:
     <<: *defaults
     steps:
       - attach_workspace:
-          at: ~/angularjs-test
+          at: ~/angularjs-enzyme
       - run:
           name: Run tests
           command: npm test
@@ -28,7 +28,7 @@ jobs:
     <<: *defaults
     steps:
       - attach_workspace:
-          at: ~/angularjs-test
+          at: ~/angularjs-enzyme
       - run:
           name: Release to GitHub
           command: npm run release-to-github
@@ -36,7 +36,7 @@ jobs:
     <<: *defaults
     steps:
       - attach_workspace:
-          at: ~/angularjs-test
+          at: ~/angularjs-enzyme
       - run:
           name: Build
           command: npm run build

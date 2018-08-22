@@ -1,1 +1,1 @@
-module.exports = require('./dist/angularjs-test');
+module.exports = require('./dist/angularjs-enzyme');

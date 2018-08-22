@@ -1,5 +1,5 @@
 {
-  "name": "angularjs-test",
+  "name": "angularjs-enzyme",
   "version": "0.2.0",
   "main": "index.js",
   "files": [
@@ -15,7 +15,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/oliverviljamaa/angularjs-test.git"
+    "url": "git+https://github.com/oliverviljamaa/angularjs-enzyme.git"
   },
   "keywords": [
     "angularjs",
@@ -27,9 +27,9 @@
   "author": "Oliver Viljamaa <oliver.viljamaa@gmail.com>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/oliverviljamaa/angularjs-test/issues"
+    "url": "https://github.com/oliverviljamaa/angularjs-enzyme/issues"
   },
-  "homepage": "https://github.com/oliverviljamaa/angularjs-test#readme",
+  "homepage": "https://github.com/oliverviljamaa/angularjs-enzyme#readme",
   "devDependencies": {
     "angular": "^1.7.2",
     "angular-mocks": "^1.7.2",
