@@ -1,3 +1,8 @@
+# v1.0.0
+## Remove `options.mockComponents` from `mount`
+
+The option caused errors not straightforward to fix due to an injector often already created before mounting.
+
 # v0.3.0
 ## Add `options.mockComponents` to `mount`
 

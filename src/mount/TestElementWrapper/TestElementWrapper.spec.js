@@ -3,7 +3,6 @@ import 'angular-mocks';
 
 import TestElementWrapper from '.';
 import mount from '..';
-import mockComponent from '../../mockComponent';
 
 jest.mock('../../mockComponent', () => jest.fn());
 
@@ -143,30 +142,6 @@ describe('Test element wrapper', () => {
       const links = wrapper.find('a');
 
       expect(links).toBeInstanceOf(TestElementWrapper);
-    });
-
-    it('returns mock with component name when component has been mocked and exists', () => {
-      angular
-        .module('childComponentModule', [])
-        .component('childComponent', { template: '<span>Child component content</span>' });
-      angular.mock.module('childComponentModule');
-
-      mockComponent.mockImplementation(name => `mock of ${name}`);
-
-      const wrapper = mount(
-        `
-        <main>
-          <child-component></child-component>
-        </main>
-      `,
-        {},
-        { mockComponents: ['child-component'] },
-      );
-
-      const childComponent = wrapper.find('child-component');
-
-      expect(childComponent).not.toBeInstanceOf(TestElementWrapper);
-      expect(childComponent).toBe('mock of child-component');
     });
   });
 

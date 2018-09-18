@@ -7,7 +7,7 @@ Therefore, it is well suited for organisations and individuals **moving from Ang
 [**An example showing the utility in use can be found here.**](example.test.js)
 
 Available methods:  
-[`mount`](#mounttemplate-props-options--testelementwrapper)  
+[`mount`](#mounttemplate-props--testelementwrapper)  
 [`mockComponent`](#mockcomponentname--mock)
 
 Returned classes:  
@@ -34,9 +34,9 @@ import { mount, mockComponent } from 'angularjs-enzyme';
 
 ## API
 
-### `mount(template[, props, options]) => TestElementWrapper`
+### `mount(template[, props]) => TestElementWrapper`
 
-Mounts the `template` (`String`) with optional `props` (`Object`) and returns a [`TestElementWrapper`](#testelementwrapper-api) with numerous helper methods. The props are attached to the `$ctrl` available in the template scope. When `options.mockComponents` (`Array`) is specified, the child components with the names in the array will be [`mocked`](#mockcomponentname--mock) and will be findable from the resulting [`TestElementWrapper`](#testelementwrapper-api), returning their [`mock`](#mock-api).
+Mounts the `template` (`String`) with optional `props` (`Object`) and returns a [`TestElementWrapper`](#testelementwrapper-api) with numerous helper methods. The props are attached to the `$ctrl` available in the template scope.
 
 <details>
   <summary>Example</summary>
@@ -55,11 +55,7 @@ describe('Component under test', () => {
   let component;
   beforeEach(() => {
     angular.mock.module('moduleOfComponentUnderTest');
-    component = mount(
-      TEMPLATE,
-      { title: 'A title', text: 'Some text' },
-      { mockComponents: ['child-component', 'another-child-component'] }, // optional
-    );
+    component = mount(TEMPLATE, { title: 'A title', text: 'Some text' });
   });
 });
 ```
@@ -197,9 +193,9 @@ it('does not have link', () => {
 
 </details>
 
-#### `.find(selector) => TestElementWrapper | mock`
+#### `.find(selector) => TestElementWrapper`
 
-Returns a [`TestElementWrapper`](#testelementwrapper-api) (for chaining) with every element matching the `selector` (`String`). When the component was[`mount`](#mounttemplate-props-options--testelementwrapper)ed with `options.mockComponents` specified, these components will also be findable by their name and will return their [`mock`](#mock-api). 
+Returns a [`TestElementWrapper`](#testelementwrapper-api) (for chaining) with every element matching the `selector` (`String`).
 
 <details>
   <summary>Example</summary>

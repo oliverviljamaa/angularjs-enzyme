@@ -1,14 +1,10 @@
 import Symbol from 'es6-symbol';
 
 const angularElementSymbol = Symbol('_angularElement');
-const mockedComponentsSymbol = Symbol('_mockedComponents');
 
 export default class TestElementWrapper {
-  constructor(angularElement, mockedComponents = {}) {
-    Object.defineProperties(this, {
-      [angularElementSymbol]: { value: angularElement },
-      [mockedComponentsSymbol]: { value: mockedComponents },
-    });
+  constructor(angularElement) {
+    Object.defineProperty(this, angularElementSymbol, { value: angularElement });
 
     this.length = angularElement.length;
   }
@@ -30,13 +26,6 @@ export default class TestElementWrapper {
   }
 
   find(selector) {
-    const mockedComponents = this[mockedComponentsSymbol];
-    const mockedComponentNames = Object.keys(mockedComponents);
-
-    if (mockedComponentNames.indexOf(selector) > -1) {
-      return mockedComponents[selector];
-    }
-
     const foundElement = this[angularElementSymbol][0].querySelectorAll(selector);
     return elementToTestElementWrapper(foundElement);
   }
