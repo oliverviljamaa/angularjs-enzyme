@@ -6,7 +6,7 @@ import { mount } from './src/main';
 angular.module('shoppingList', []).component('shoppingList', {
   template: `
     <input type="text" ng-model="$ctrl.newItem" />
-    <button ng-click="$ctrl.onAddItem({ $event: $ctrl.newItem })">
+    <button ng-click="$ctrl.onAddItem($ctrl.newItem)">
       Add item
     </button>
 
@@ -16,7 +16,7 @@ angular.module('shoppingList', []).component('shoppingList', {
   `,
   bindings: {
     items: '<',
-    onAddItem: '&',
+    onAddItem: '<',
   },
 });
 
@@ -29,7 +29,7 @@ describe('Shopping list', () => {
       `
         <shopping-list
           items="$ctrl.items"
-          on-add-item="$ctrl.onAddItem($event)"
+          on-add-item="$ctrl.onAddItem"
         ></shopping-list>
       `,
     );
