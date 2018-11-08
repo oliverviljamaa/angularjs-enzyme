@@ -1,3 +1,6 @@
+# v1.0.2
+## Update dependencies
+
 # v1.0.1
 ## Pass onAddItem as a one-way binding in example test
 
