@@ -6,7 +6,6 @@
     "dist/"
   ],
   "scripts": {
-    "precommit": "lint-staged",
     "test": "npm run check-release-to-github && eslint src/ && jest",
     "test:watch": "jest --watch",
     "build": "NODE_ENV=production rollup -c",
@@ -63,5 +62,10 @@
   "dependencies": {
     "es6-symbol": "^3.1.1",
     "lodash": "^4.17.11"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
   }
 }
