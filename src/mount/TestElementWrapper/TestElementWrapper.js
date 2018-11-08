@@ -1,4 +1,4 @@
-import Symbol from 'es6-symbol';
+import Symbol from 'core-js/library/fn/symbol';
 
 const angularElementSymbol = Symbol('_angularElement');
 
@@ -31,7 +31,9 @@ export default class TestElementWrapper {
   }
 
   map(fn) {
-    return [...this[angularElementSymbol]].map(elementToTestElementWrapper).map(fn);
+    return Array.from(this[angularElementSymbol])
+      .map(elementToTestElementWrapper)
+      .map(fn);
   }
 
   props() {

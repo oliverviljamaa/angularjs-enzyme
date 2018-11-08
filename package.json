@@ -1,6 +1,6 @@
 {
   "name": "angularjs-enzyme",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "main": "index.js",
   "files": [
     "dist/"
@@ -30,12 +30,12 @@
   },
   "homepage": "https://github.com/oliverviljamaa/angularjs-enzyme#readme",
   "devDependencies": {
+    "@babel/core": "^7.1.5",
+    "@babel/plugin-proposal-object-rest-spread": "^7.0.0",
+    "@babel/preset-env": "^7.1.5",
     "angular": "^1.7.5",
     "angular-mocks": "^1.7.5",
-    "babel-core": "^6.26.3",
-    "babel-plugin-external-helpers": "^6.22.0",
-    "babel-plugin-transform-object-rest-spread": "^6.26.0",
-    "babel-preset-env": "^1.7.0",
+    "babel-core": "^7.0.0-bridge.0",
     "eslint": "^5.8.0",
     "eslint-config-airbnb-base": "^13.1.0",
     "eslint-config-prettier": "^3.1.0",
@@ -48,7 +48,7 @@
     "prettier": "^1.15.1",
     "release-to-github-with-changelog": "^1.2.1",
     "rollup": "^0.67.0",
-    "rollup-plugin-babel": "^3.0.7",
+    "rollup-plugin-babel": "^4.0.3",
     "rollup-plugin-cleanup": "^3.0.0",
     "rollup-plugin-commonjs": "^9.2.0",
     "rollup-plugin-node-resolve": "^3.4.0"
@@ -60,7 +60,7 @@
     ]
   },
   "dependencies": {
-    "es6-symbol": "^3.1.1",
+    "core-js": "^2.5.7",
     "lodash": "^4.17.11"
   },
   "husky": {

@@ -1,3 +1,6 @@
+# v1.0.3
+## Update Babel and Symbol polyfill
+
 # v1.0.2
 ## Update dependencies
 

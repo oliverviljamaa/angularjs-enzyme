@@ -1,11 +1,11 @@
 {
   "env": {
     "production": {
-      "presets": [["env", { "modules": false }]]
+      "presets": [["@babel/preset-env", { "modules": false }]]
     },
     "test": {
-      "presets": ["env"]
+      "presets": ["@babel/preset-env"]
     }
   },
-  "plugins": ["transform-object-rest-spread"]
+  "plugins": ["@babel/plugin-proposal-object-rest-spread"]
 }

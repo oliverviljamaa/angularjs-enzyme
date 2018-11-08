@@ -13,7 +13,7 @@ export default {
   plugins: [
     commonjs({ include: 'node_modules/**' }),
     resolve(),
-    babel({ exclude: 'node_modules/**', plugins: ['external-helpers'] }),
+    babel({ exclude: 'node_modules/**' }),
     cleanup(),
   ],
 };
