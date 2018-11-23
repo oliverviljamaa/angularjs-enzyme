@@ -1,3 +1,8 @@
+# v1.2.0
+## Add `.first` to `TestElementWrapper`
+
+See [README](README.md#first--testelementwrapper).
+
 # v1.1.0
 ## Add `.at` to `TestElementWrapper`
 
