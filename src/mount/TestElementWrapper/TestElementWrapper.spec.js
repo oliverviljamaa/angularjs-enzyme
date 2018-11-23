@@ -145,6 +145,34 @@ describe('Test element wrapper', () => {
     });
   });
 
+  describe('at', () => {
+    it('returns wrapper for element at index', () => {
+      const wrapper = mount(`
+      <main>
+        <input type="radio" name="radio" value="first">
+        <input type="radio" name="radio" value="second">
+        <input type="radio" name="radio" value="third">
+      </main>
+    `);
+
+      const thirdInput = wrapper.find('input').at(2);
+      expect(thirdInput.prop('value')).toBe('third');
+    });
+
+    it('returns zero-length wrapper when index is out of range', () => {
+      const wrapper = mount(`
+      <main>
+        <input type="radio" name="radio" value="first">
+        <input type="radio" name="radio" value="second">
+        <input type="radio" name="radio" value="third">
+      </main>
+    `);
+
+      const fourthInput = wrapper.find('input').at(3);
+      expect(fourthInput.length).toBe(0);
+    });
+  });
+
   describe('map', () => {
     it('maps over elements', () => {
       const wrapper = mount(`

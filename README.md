@@ -222,6 +222,28 @@ it('has one transferwise link with corrext text on the right', () => {
 
 </details>
 
+#### `.at(index) => TestElementWrapper`
+
+Returns a [`TestElementWrapper`](#testelementwrapper-api) (for chaining) for element at `index` (`Number`).
+
+<details>
+  <summary>Example</summary>
+
+```html
+<button class="btn btn-primary">Balance</button>
+<button class="btn btn-primary">Bank transfer</button>
+<button class="btn btn-primary">Card</button>
+```
+
+```js
+it('has card as third button', () => {
+  const thirdButton = component.find('button').at(2);
+  expect(thirdButton.text()).toBe('Card');
+});
+```
+
+</details>
+
 #### `.map(fn) => Array<Any>`
 
 Maps the nodes in the wrapper to another array using `fn` (`Function`).

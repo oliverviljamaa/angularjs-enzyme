@@ -1,3 +1,8 @@
+# v1.1.0
+## Add `.at` to `TestElementWrapper`
+
+See [README](README.md#atindex--testelementwrapper).
+
 # v1.0.3
 ## Update Babel and Symbol polyfill
 

@@ -30,6 +30,11 @@ export default class TestElementWrapper {
     return elementToTestElementWrapper(foundElement);
   }
 
+  at(index) {
+    const elementAtIndex = this[angularElementSymbol][index];
+    return elementToTestElementWrapper(elementAtIndex);
+  }
+
   map(fn) {
     return Array.from(this[angularElementSymbol])
       .map(elementToTestElementWrapper)
