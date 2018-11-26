@@ -31,8 +31,8 @@ export default class TestElementWrapper {
   }
 
   first() {
-    const elementAtIndex = this[angularElementSymbol][0];
-    return elementToTestElementWrapper(elementAtIndex);
+    const firstElement = this[angularElementSymbol][0];
+    return elementToTestElementWrapper(firstElement);
   }
 
   at(index) {
