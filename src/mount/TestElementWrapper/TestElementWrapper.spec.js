@@ -145,6 +145,20 @@ describe('Test element wrapper', () => {
     });
   });
 
+  describe('first', () => {
+    it('returns wrapper for the first element', () => {
+      const wrapper = mount(`
+      <main>
+        <input type="radio" name="radio" value="first">
+        <input type="radio" name="radio" value="second">
+      </main>
+    `);
+
+      const firstInput = wrapper.find('input').first();
+      expect(firstInput.prop('value')).toBe('first');
+    });
+  });
+
   describe('at', () => {
     it('returns wrapper for element at index', () => {
       const wrapper = mount(`

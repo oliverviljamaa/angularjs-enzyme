@@ -1,4 +1,5 @@
 # :rotating_light: AngularJS Enzyme
+
 [![npm](https://img.shields.io/npm/v/angularjs-enzyme.svg)](https://www.npmjs.com/package/angularjs-enzyme) [![GitHub release](https://img.shields.io/github/release/oliverviljamaa/angularjs-enzyme.svg)](https://github.com/oliverviljamaa/angularjs-enzyme/releases) [![CircleCI](https://img.shields.io/circleci/project/github/oliverviljamaa/angularjs-enzyme/master.svg)](https://circleci.com/gh/oliverviljamaa/angularjs-enzyme) [![npm](https://img.shields.io/npm/l/angularjs-enzyme.svg)](https://github.com/oliverviljamaa/angularjs-enzyme/blob/master/LICENSE)
 
 Unit testing utility for [AngularJS (1.x)](https://angularjs.org/), heavily inspired by the wonderful [Enzyme](http://airbnb.io/enzyme/) API. :heart:  
@@ -14,7 +15,6 @@ Returned classes:
 [`TestElementWrapper`](#testelementwrapper-api)  
 [`mock`](#mock-api)
 
-
 ## Usage
 
 ```bash
@@ -24,7 +24,7 @@ npm install angularjs-enzyme --save-dev
 ### Module context
 
 ```js
-import { mount, mockComponent } from 'angularjs-enzyme'; 
+import { mount, mockComponent } from 'angularjs-enzyme';
 ```
 
 ### Non-module context
@@ -217,6 +217,28 @@ it('has one transferwise link with corrext text on the right', () => {
 
   expect(link.length).toBe(1);
   expect(link.text()).toBe('Correct');
+});
+```
+
+</details>
+
+#### `.first() => TestElementWrapper`
+
+Returns a [`TestElementWrapper`](#testelementwrapper-api) (for chaining) for the first element.
+
+<details>
+  <summary>Example</summary>
+
+```html
+<button class="btn btn-primary">Balance</button>
+<button class="btn btn-primary">Bank transfer</button>
+<button class="btn btn-primary">Card</button>
+```
+
+```js
+it('has balance as the first button', () => {
+  const firstButton = component.find('button').first();
+  expect(firstButton.text()).toBe('Balance');
 });
 ```
 
@@ -503,7 +525,7 @@ it('calls parent component with data when child component is called', () => {
         on-some-prop-change="onSomePropChange($event)"
       ></child-component>
     `,
-    { onSomePropChange } // ⇦ props for component under test
+    { onSomePropChange }, // ⇦ props for component under test
   );
 
   expect(onSomePropChange).not.toBeCalled();
