@@ -231,7 +231,8 @@ Returns a [`TestElementWrapper`](#testelementwrapper-api) (for chaining) for the
 
 ```html
 <button class="btn btn-primary">Balance</button>
-<button class="btn btn-primary">Bank transfer</button> <button class="btn btn-primary">Card</button>
+<button class="btn btn-primary">Bank transfer</button>
+<button class="btn btn-primary">Card</button>
 ```
 
 ```js
