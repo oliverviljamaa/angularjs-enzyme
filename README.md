@@ -202,10 +202,14 @@ Returns a [`TestElementWrapper`](#testelementwrapper-api) (for chaining) with ev
 
 ```html
 <div class="left">
-  <a href="https://neopets.com">Wrong</a> <a href="https://transferwise.com">Wrong</a>
+  <a href="https://neopets.com">Wrong</a>
+
+  <a href="https://transferwise.com">Wrong</a>
 </div>
 <div class="right">
-  <a href="https://neopets.com">Wrong</a> <a href="https://transferwise.com">Correct</a>
+  <a href="https://neopets.com">Wrong</a>
+
+  <a href="https://transferwise.com">Correct</a>
 </div>
 ```
 
@@ -222,7 +226,7 @@ it('has one transferwise link with corrext text on the right', () => {
 
 #### `.first() => TestElementWrapper`
 
-Returns a [`TestElementWrapper`](#testelementwrapper-api) (for chaining) for first element.
+Returns a [`TestElementWrapper`](#testelementwrapper-api) (for chaining) for the first element.
 
 <details>
   <summary>Example</summary>
@@ -233,7 +237,7 @@ Returns a [`TestElementWrapper`](#testelementwrapper-api) (for chaining) for fir
 ```
 
 ```js
-it('has card as third button', () => {
+it('has balance as the first button', () => {
   const firstButton = component.find('button').first();
   expect(firstButton.text()).toBe('Balance');
 });
@@ -250,7 +254,8 @@ Returns a [`TestElementWrapper`](#testelementwrapper-api) (for chaining) for ele
 
 ```html
 <button class="btn btn-primary">Balance</button>
-<button class="btn btn-primary">Bank transfer</button> <button class="btn btn-primary">Card</button>
+<button class="btn btn-primary">Bank transfer</button>
+<button class="btn btn-primary">Card</button>
 ```
 
 ```js
