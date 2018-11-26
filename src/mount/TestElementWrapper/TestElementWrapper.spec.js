@@ -146,7 +146,7 @@ describe('Test element wrapper', () => {
   });
 
   describe('first', () => {
-    it('returns wrapper for first element', () => {
+    it('returns wrapper for the first element', () => {
       const wrapper = mount(`
       <main>
         <input type="radio" name="radio" value="first">
