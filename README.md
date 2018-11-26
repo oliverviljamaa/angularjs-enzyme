@@ -203,12 +203,10 @@ Returns a [`TestElementWrapper`](#testelementwrapper-api) (for chaining) with ev
 ```html
 <div class="left">
   <a href="https://neopets.com">Wrong</a>
-
   <a href="https://transferwise.com">Wrong</a>
 </div>
 <div class="right">
   <a href="https://neopets.com">Wrong</a>
-
   <a href="https://transferwise.com">Correct</a>
 </div>
 ```
