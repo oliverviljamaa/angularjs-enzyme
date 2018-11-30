@@ -334,7 +334,7 @@ it('has transferwise link', () => {
 
 #### `.simulate(event[, data]) => Self`
 
-Calls an event handler on the wrapper for passed `event` with `data` (optional) and returns wrapper for chaining.
+Calls an event handler on the wrapper for passed `event` with `data` (optional), updates the view, and returns wrapper for chaining.
 
 NOTE: `event` should be written in camelCase and without the `on` present in the event handler name. Currently, `change` and `click` events are supported, with `change` requiring an event format.
 
@@ -508,7 +508,7 @@ it('passes some prop to child component', () => {
 
 #### `.simulate(event[, data]) => Self`
 
-Calls an event handler on the mocked component for passed `event` with `data` (optional) and returns mocked component for chaining.
+Calls an event handler on the mocked component for passed `event` with `data` (optional), updates the view, and returns mocked component for chaining.
 
 NOTE: `event` should be written in camelCase and without the `on` present in the event handler name. So, to call `onSomePropChange`, `.simulate('somePropChange')` should be used.
 

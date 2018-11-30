@@ -1,3 +1,9 @@
+# v1.2.1
+## Update view as part of `mock.simulate`
+
+Previously, the `.simulate` call of `mock` did not update the view, requiring the test to inject `$scope` or `$rootScope` to `$apply` or `$digest` in order to test view changes.
+This is now fixed and the fact that `.simulate` updates the view for both `mock` and `TestElementWrapper` is reflected in the documentation.
+
 # v1.2.0
 ## Add `.first` to `TestElementWrapper`
 

@@ -58,7 +58,14 @@ function withSimulate(mock) {
   mock.simulate = (event, data) => {
     const callbackName = `on${event[0].toUpperCase()}${event.slice(1)}`;
     mock._controller[callbackName]({ $event: data });
+    updateView();
     return mock;
   };
   return mock;
+}
+
+function updateView() {
+  angular.mock.inject($injector => {
+    $injector.get('$rootScope').$apply();
+  });
 }

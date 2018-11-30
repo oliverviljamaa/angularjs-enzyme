@@ -1,23 +1,18 @@
 import 'angular';
 import 'angular-mocks';
 
-import mockComponent from '.';
+import { mockComponent, mount } from '../main';
 
 describe('Mock component', () => {
-  let $scope;
   let mockedComponent;
   beforeEach(() => {
     angular.module('some-module', []).component('someComponent', {
-      bindings: { someProp: '<', onSomePropChange: '&' },
+      bindings: { someProp: '<', onSomePropChange: '&', onAnotherPropChange: '&' },
     });
 
     angular.mock.module('some-module');
 
     mockedComponent = mockComponent('some-component');
-
-    angular.mock.inject($injector => {
-      $scope = $injector.get('$rootScope').$new();
-    });
   });
 
   describe('exists', () => {
@@ -53,8 +48,8 @@ describe('Mock component', () => {
         `
           <div>Something else</div>
           <some-component
-            some-prop="someProp"
-            on-some-prop-change="onSomePropChange()"
+            some-prop="$ctrl.someProp"
+            on-some-prop-change="$ctrl.onSomePropChange()"
           ></some-component>
         `,
         props,
@@ -63,6 +58,7 @@ describe('Mock component', () => {
       expect(mockedComponent.props()).toEqual({
         someProp: 'Some value',
         onSomePropChange: expect.any(Function), // due to Angular's handling of callbacks
+        onAnotherPropChange: expect.any(Function), // due to Angular's handling of callbacks
       });
     });
   });
@@ -73,7 +69,7 @@ describe('Mock component', () => {
       mount(
         `
         <div>Something else</div>
-        <some-component some-prop="someProp"></some-component>
+        <some-component some-prop="$ctrl.someProp"></some-component>
         `,
         props,
       );
@@ -83,14 +79,20 @@ describe('Mock component', () => {
   });
 
   describe('simulate', () => {
+    let component;
     let onSomePropChange;
     beforeEach(() => {
       onSomePropChange = jest.fn();
       const props = { onSomePropChange };
-      mount(
+      component = mount(
         `
-        <div>Something else</div>
-        <some-component on-some-prop-change="onSomePropChange($event)"></some-component>
+        <main>
+          <div ng-if="$ctrl.show">Something else</div>
+          <some-component
+            on-some-prop-change="$ctrl.onSomePropChange($event)"
+            on-another-prop-change="$ctrl.show = true"
+          ></some-component>
+        </main>
         `,
         props,
       );
@@ -100,6 +102,12 @@ describe('Mock component', () => {
       expect(onSomePropChange).not.toBeCalled();
       mockedComponent.simulate('somePropChange', 'New value');
       expect(onSomePropChange).toBeCalledWith('New value');
+    });
+
+    it('updates view', () => {
+      expect(component.find('div').exists()).toBe(false);
+      mockedComponent.simulate('anotherPropChange');
+      expect(component.find('div').exists()).toBe(true);
     });
 
     it('returns itself for chaining', () => {
@@ -117,16 +125,4 @@ describe('Mock component', () => {
 
     expect(component.find('some-component').html()).toBe('<!-- mock of some-component -->');
   });
-
-  function mount(template, props) {
-    Object.assign($scope, props);
-
-    let element;
-    angular.mock.inject($compile => {
-      element = $compile(template)($scope);
-    });
-    $scope.$digest();
-
-    return element;
-  }
 });
