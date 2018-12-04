@@ -10,13 +10,17 @@ export default function mockComponent(kebabCaseName) {
       if (component.templateUrl) {
         delete component.templateUrl;
       }
-      component.template = `<!-- mock of ${kebabCaseName} -->`;
+      const template = `<!-- mock of ${kebabCaseName} -->`;
+      component.template = template;
 
       component.controller = class {
         constructor() {
           mock._controller = this;
         }
       };
+
+      mock._template = template;
+      mock._name = kebabCaseName;
 
       return $delegate;
     });

@@ -1,3 +1,8 @@
+# v1.2.2
+## Expose `mock._template` and `mock._name` for custom matchers
+
+These should be considered internals and are prone to change.
+
 # v1.2.1
 ## Update view as part of `mock.simulate`
 
