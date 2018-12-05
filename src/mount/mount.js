@@ -1,22 +1,13 @@
+import { validate } from './validation';
+import { createTemplate } from './template';
+import { compile } from './component';
 import TestElementWrapper from './TestElementWrapper';
 
-export default function mount(template, props = {}) {
-  const angularElement = getAngularElement(template, props);
+export default function mount(tag, props = {}) {
+  validate(tag);
+
+  const template = createTemplate(tag);
+  const angularElement = compile(template, props);
 
   return new TestElementWrapper(angularElement);
-}
-
-function getAngularElement(template, props) {
-  let $rootScope;
-  let element;
-
-  angular.mock.inject(($compile, $injector) => {
-    $rootScope = $injector.get('$rootScope');
-    $rootScope.$ctrl = props;
-
-    element = $compile(template)($rootScope);
-  });
-  $rootScope.$digest();
-
-  return element;
 }

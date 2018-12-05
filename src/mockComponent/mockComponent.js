@@ -1,3 +1,5 @@
+import angular from 'angular';
+
 import { compose, convertKebabCaseToCamelCase } from '../common/utils';
 
 export default function mockComponent(kebabCaseName) {
@@ -61,7 +63,7 @@ function withProp(mock) {
 function withSimulate(mock) {
   mock.simulate = (event, data) => {
     const callbackName = `on${event[0].toUpperCase()}${event.slice(1)}`;
-    mock._controller[callbackName]({ $event: data });
+    mock._controller[callbackName](data);
     updateView();
     return mock;
   };

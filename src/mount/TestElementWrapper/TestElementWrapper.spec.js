@@ -1,15 +1,14 @@
-import 'angular';
+import angular from 'angular';
 import 'angular-mocks';
 
 import TestElementWrapper from '.';
-import mount from '..';
 
 jest.mock('../../mockComponent', () => jest.fn());
 
 describe('Test element wrapper', () => {
   describe('length', () => {
     it('is how many elements are in wrapper', () => {
-      const wrapper = mount(`
+      const wrapper = createWrapper(`
         <main>
           <ul>
             <li>1</li>
@@ -27,7 +26,7 @@ describe('Test element wrapper', () => {
 
   describe('html', () => {
     it('returns html without container element', () => {
-      const wrapper = mount(`
+      const wrapper = createWrapper(`
         <main>
           <ul>
             <li>1</li>
@@ -52,7 +51,7 @@ describe('Test element wrapper', () => {
 
   describe('text', () => {
     it('returns text', () => {
-      const wrapper = mount(`
+      const wrapper = createWrapper(`
         <main>
           <h2>Some title</h2>
           <p>Some text</p>
@@ -67,7 +66,7 @@ describe('Test element wrapper', () => {
   describe('hasClass', () => {
     let button;
     beforeEach(() => {
-      const wrapper = mount(`
+      const wrapper = createWrapper(`
         <main>
           <button class="success">Pay</button>
         </main>
@@ -87,7 +86,7 @@ describe('Test element wrapper', () => {
   describe('exists', () => {
     let wrapper;
     beforeEach(() => {
-      wrapper = mount(`
+      wrapper = createWrapper(`
         <main>
           <button class="success">Pay</button>
         </main>
@@ -105,7 +104,7 @@ describe('Test element wrapper', () => {
 
   describe('find', () => {
     it('allows finding by any selector', () => {
-      const wrapper = mount(`
+      const wrapper = createWrapper(`
       <main>
         <div class="wrong">
           <a href="https://right.com">
@@ -134,7 +133,7 @@ describe('Test element wrapper', () => {
     });
 
     it('returns test element wrapper for chaining', () => {
-      const wrapper = mount(`
+      const wrapper = createWrapper(`
         <main>
           <a href="/link">Some title</a>
         </main>
@@ -147,7 +146,7 @@ describe('Test element wrapper', () => {
 
   describe('first', () => {
     it('returns wrapper for the first element', () => {
-      const wrapper = mount(`
+      const wrapper = createWrapper(`
       <main>
         <input type="radio" name="radio" value="first">
         <input type="radio" name="radio" value="second">
@@ -161,7 +160,7 @@ describe('Test element wrapper', () => {
 
   describe('at', () => {
     it('returns wrapper for element at index', () => {
-      const wrapper = mount(`
+      const wrapper = createWrapper(`
       <main>
         <input type="radio" name="radio" value="first">
         <input type="radio" name="radio" value="second">
@@ -174,7 +173,7 @@ describe('Test element wrapper', () => {
     });
 
     it('returns zero-length wrapper when index is out of range', () => {
-      const wrapper = mount(`
+      const wrapper = createWrapper(`
       <main>
         <input type="radio" name="radio" value="first">
         <input type="radio" name="radio" value="second">
@@ -189,7 +188,7 @@ describe('Test element wrapper', () => {
 
   describe('map', () => {
     it('maps over elements', () => {
-      const wrapper = mount(`
+      const wrapper = createWrapper(`
         <main>
           <ul>
             <li>One</li>
@@ -207,7 +206,7 @@ describe('Test element wrapper', () => {
 
   describe('props', () => {
     it('returns props', () => {
-      const wrapper = mount(`
+      const wrapper = createWrapper(`
         <main>
           <a href="https://transferwise.com" target="_blank">Send money</a>
         </main>
@@ -221,7 +220,7 @@ describe('Test element wrapper', () => {
 
   describe('prop', () => {
     it('returns prop with key', () => {
-      const wrapper = mount(`
+      const wrapper = createWrapper(`
         <main>
           <a href="https://transferwise.com" target="_blank">Send money</a>
         </main>
@@ -238,7 +237,7 @@ describe('Test element wrapper', () => {
     let onClick;
     beforeEach(() => {
       onClick = jest.fn();
-      wrapper = mount(
+      wrapper = createWrapper(
         `
           <main>
             <input ng-model="$ctrl.text" />
@@ -286,7 +285,7 @@ describe('Test element wrapper', () => {
   describe('setProps', () => {
     let wrapper;
     beforeEach(() => {
-      wrapper = mount(
+      wrapper = createWrapper(
         `
           <main>
             <h1>{{ $ctrl.title }}</h1>
@@ -313,6 +312,27 @@ describe('Test element wrapper', () => {
     });
   });
 });
+
+function createWrapper(template, props) {
+  const angularElement = compile(template, props);
+  return new TestElementWrapper(angularElement);
+}
+
+function compile(template, props) {
+  let $rootScope;
+  let element;
+
+  angular.mock.inject($injector => {
+    $rootScope = $injector.get('$rootScope');
+    $rootScope.$ctrl = props;
+
+    const $compile = $injector.get('$compile');
+    element = $compile(template)($rootScope);
+  });
+  $rootScope.$digest();
+
+  return element;
+}
 
 function trimWhitespace(text) {
   return text.trim().replace(/\s+/g, ' ');

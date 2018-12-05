@@ -8,7 +8,7 @@ Therefore, it is well suited for organisations and individuals **moving from Ang
 [**An example showing the utility in use can be found here.**](example.test.js)
 
 Available methods:  
-[`mount`](#mounttemplate-props--testelementwrapper)  
+[`mount`](#mounttagname-props--testelementwrapper)  
 [`mockComponent`](#mockcomponentname--mock)
 
 Returned classes:  
@@ -34,12 +34,18 @@ import { mount, mockComponent } from 'angularjs-enzyme';
 
 ## API
 
-### `mount(template[, props]) => TestElementWrapper`
+### `mount(tagName[, props]) => TestElementWrapper`
 
-Mounts the `template` (`String`) with optional `props` (`Object`) and returns a [`TestElementWrapper`](#testelementwrapper-api) with numerous helper methods. The props are attached to the `$ctrl` available in the template scope.
+Mounts the component with `tagName` (`String`) and optional `props` (`Object`) and returns a [`TestElementWrapper`](#testelementwrapper-api) with numerous helper methods. The props are attached to the `$ctrl` available in the template scope. Only components with one-way bound props (`<`) can be mounted.
 
 <details>
   <summary>Example</summary>
+
+*some-component.html*
+```html
+<h1>{{ $ctrl.title }}</h1>
+<p>{{ $ctrl.text }}</p>
+```
 
 ```js
 import 'angular';
@@ -47,15 +53,10 @@ import 'angular-mocks';
 import { mount } from 'angularjs-enzyme';
 
 describe('Component under test', () => {
-  const TEMPLATE = `
-    <h1>{{ $ctrl.title }}</h1>
-    <p>{{ $ctrl.text }}</p>
-  `;
-
   let component;
   beforeEach(() => {
     angular.mock.module('moduleOfComponentUnderTest');
-    component = mount(TEMPLATE, { title: 'A title', text: 'Some text' });
+    component = mount('some-component', { title: 'A title', text: 'Some text' });
   });
 });
 ```
@@ -94,6 +95,7 @@ The number of elements in the wrapper.
 <details>
   <summary>Example</summary>
 
+*some-component.html*
 ```html
 <ul>
   <li>1</li>
@@ -117,6 +119,7 @@ Returns HTML of the wrapper. It should only be used for logging purposes, in tes
 <details>
   <summary>Example</summary>
 
+*some-component.html*
 ```html
 <h1>Some title</h1>
 ```
@@ -134,6 +137,7 @@ it('renders title as html', () => {
 <details>
   <summary>Example</summary>
 
+*some-component.html*
 ```html
 <h1>Some title</h1>
 <p>Some text</p>
@@ -154,6 +158,7 @@ Returns whether the wrapper has a class with `className` (`String`) or not.
 <details>
   <summary>Example</summary>
 
+*some-component.html*
 ```html
 <button class="success">Pay</button>
 ```
@@ -177,6 +182,7 @@ Returns whether or not the wrapper contains any elements.
 <details>
   <summary>Example</summary>
 
+*some-component.html*
 ```html
 <button>Pay</button>
 ```
@@ -200,6 +206,7 @@ Returns a [`TestElementWrapper`](#testelementwrapper-api) (for chaining) with ev
 <details>
   <summary>Example</summary>
 
+*some-component.html*
 ```html
 <div class="left">
   <a href="https://neopets.com">Wrong</a>
@@ -229,6 +236,7 @@ Returns a [`TestElementWrapper`](#testelementwrapper-api) (for chaining) for the
 <details>
   <summary>Example</summary>
 
+*some-component.html*
 ```html
 <button class="btn btn-primary">Balance</button>
 <button class="btn btn-primary">Bank transfer</button>
@@ -251,6 +259,7 @@ Returns a [`TestElementWrapper`](#testelementwrapper-api) (for chaining) for ele
 <details>
   <summary>Example</summary>
 
+*some-component.html*
 ```html
 <button class="btn btn-primary">Balance</button>
 <button class="btn btn-primary">Bank transfer</button>
@@ -273,6 +282,7 @@ Maps the nodes in the wrapper to another array using `fn` (`Function`).
 <details>
   <summary>Example</summary>
 
+*some-component.html*
 ```html
 <ul>
   <li>One</li>
@@ -298,6 +308,7 @@ Returns all wrapper props/attributes.
 <details>
   <summary>Example</summary>
 
+*some-component.html*
 ```html
 <a href="https://transferwise.com" target="_blank">Send money</a>
 ```
@@ -320,6 +331,7 @@ Returns wrapper prop/attribute value with provided `key` (`String`).
 <details>
   <summary>Example</summary>
 
+*some-component.html*
 ```html
 <a href="https://transferwise.com">Send money</a>
 ```
@@ -341,10 +353,11 @@ NOTE: `event` should be written in camelCase and without the `on` present in the
 <details>
   <summary>Example</summary>
 
+*some-component.html*
 ```html
 <input ng-model="$ctrl.text" />
 <p>{{ $ctrl.text }}</p>
-<button ng-click="$ctrl.onClick({ $event: $ctrl.text })">Click me</button>
+<button ng-click="$ctrl.onClick($ctrl.text)">Click me</button>
 ```
 
 ```js
@@ -352,15 +365,7 @@ let component;
 let onClick;
 beforeEach(() => {
   onClick = jest.fn();
-  component = mount(
-    `
-      <some-component
-        text="$ctrl.text"
-        on-click="$ctrl.onClick($event)"
-      ></some-component>
-    `,
-    { text: 'Original text', onClick },
-  );
+  component = mount('some-component', { text: 'Original text', onClick });
 });
 
 it('calls click handler on button click', () => {
@@ -391,6 +396,7 @@ Merges `props` (`Object`) with existing props and updates view to reflect them, 
 <details>
   <summary>Example</summary>
 
+*some-component.html*
 ```html
 <h1>{{ $ctrl.title }}</h1>
 <p>{{ $ctrl.text }}</p>
@@ -398,15 +404,10 @@ Merges `props` (`Object`) with existing props and updates view to reflect them, 
 
 ```js
 it('changes title and text when props change', () => {
-  const component = mount(
-    `
-      <some-component
-        title="$ctrl.title"
-        text="$ctrl.text"
-      ></some-component>
-    `,
-    { title: 'Original title', text: 'Original text' },
-  );
+  const component = mount('some-component', {
+    title: 'Original title',
+    text: 'Original text',
+  });
 
   const title = () => component.find('h1').text();
   const text = () => component.find('p').text();
@@ -430,15 +431,18 @@ Returns whether or not the mocked component exists in the rendered template.
 <details>
   <summary>Example</summary>
 
+*some-component.html*
+```html
+<button ng-click="$ctrl.show = !$ctrl.show">
+  Show child
+</button>
+<child-component ng-if="$ctrl.show"></child-component>
+```
+
 ```js
 let component;
 beforeEach(() => {
-  component = mount(`
-    <button ng-click="$ctrl.show = !$ctrl.show">
-      Show child
-    </button>
-    <child-component ng-if="$ctrl.show"></child-component>
-  `);
+  component = mount('some-component');
 });
 
 it('allows toggling child component', () => {
@@ -461,16 +465,19 @@ Returns all mocked component props.
 <details>
   <summary>Example</summary>
 
+*some-component.html*
+```html
+<div>Something else</div>
+<child-component
+  some-prop="'A string'",
+  some-other-prop="12345"
+></child-component>
+```
+
 ```js
 let component;
 beforeEach(() => {
-  component = mount(`
-    <div>Something else</div>
-    <child-component
-      some-prop="'A string'",
-      some-other-prop="12345"
-    ></child-component>
-  `);
+  component = mount('some-component');
 });
 
 it('passes props to child component', () => {
@@ -490,13 +497,16 @@ Returns mocked component prop value with the provided `key` (`String`).
 <details>
   <summary>Example</summary>
 
+*some-component.html*
+```html
+<div>Something else</div>
+<child-component some-prop="'A string'"></child-component>
+```
+
 ```js
 let component;
 beforeEach(() => {
-  component = mount(`
-    <div>Something else</div>
-    <child-component some-prop="'A string'"></child-component>
-  `);
+  component = mount('some-component');
 });
 
 it('passes some prop to child component', () => {
@@ -515,18 +525,18 @@ NOTE: `event` should be written in camelCase and without the `on` present in the
 <details>
   <summary>Example</summary>
 
+*some-component.html*
+```html
+<div>Something else</div>
+<child-component
+  on-some-prop-change="onSomePropChange"
+></child-component>
+```
+
 ```js
 it('calls parent component with data when child component is called', () => {
   const onSomePropChange = jest.fn();
-  mount(
-    `
-      <div>Something else</div>
-      <child-component
-        on-some-prop-change="onSomePropChange($event)"
-      ></child-component>
-    `,
-    { onSomePropChange }, // ⇦ props for component under test
-  );
+  mount('some-component', { onSomePropChange });
 
   expect(onSomePropChange).not.toBeCalled();
   childComponent.simulate('somePropChange', 'New value');

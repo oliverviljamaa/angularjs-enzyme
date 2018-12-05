@@ -1,4 +1,4 @@
-import 'angular';
+import angular from 'angular';
 import 'angular-mocks';
 
 import { mount } from './src/main';
@@ -25,14 +25,7 @@ describe('Shopping list', () => {
   beforeEach(() => {
     angular.mock.module('shoppingList');
 
-    component = mount(
-      `
-        <shopping-list
-          items="$ctrl.items"
-          on-add-item="$ctrl.onAddItem"
-        ></shopping-list>
-      `,
-    );
+    component = mount('shopping-list');
   });
 
   it('has no list when no items are passed', () => {

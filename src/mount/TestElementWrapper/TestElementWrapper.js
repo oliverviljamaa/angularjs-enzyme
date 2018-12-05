@@ -1,3 +1,4 @@
+import angular from 'angular';
 import Symbol from 'core-js/library/fn/symbol';
 
 const angularElementSymbol = Symbol('_angularElement');

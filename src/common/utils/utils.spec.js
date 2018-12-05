@@ -1,4 +1,4 @@
-import { compose, convertKebabCaseToCamelCase } from '.';
+import { compose, convertKebabCaseToCamelCase, convertCamelCaseToKebabCase } from '.';
 
 describe('Utils', () => {
   describe('compose', () => {
@@ -23,6 +23,16 @@ describe('Utils', () => {
 
     it('keeps already camel-case the same', () => {
       expect(convertKebabCaseToCamelCase('sideNavigation')).toBe('sideNavigation');
+    });
+  });
+
+  describe('converting camel-case to kebab-case', () => {
+    it('converts camel-case to kebab-case', () => {
+      expect(convertCamelCaseToKebabCase('sideNavigation')).toBe('side-navigation');
+    });
+
+    it('keeps already kebab-case the same', () => {
+      expect(convertCamelCaseToKebabCase('side-navigation')).toBe('side-navigation');
     });
   });
 });

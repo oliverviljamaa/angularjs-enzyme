@@ -1,3 +1,12 @@
+# v2.0.0
+## Change `mount` signature and only allow components with one-way bound props
+
+Breaking:
+* `mount` now takes a `tagName` as the first argument rather than a `template`
+* only components with onw-way bound props are allowed (bear in mind that this affects all callbacks previously bound with `&`)
+
+See [README](README.md#mounttagname-props-options--testelementwrapper).
+
 # v1.2.2
 ## Expose `mock._template` and `mock._name` for custom matchers
 

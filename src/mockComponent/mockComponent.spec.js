@@ -1,13 +1,13 @@
-import 'angular';
+import angular from 'angular';
 import 'angular-mocks';
 
-import { mockComponent, mount } from '../main';
+import { mockComponent } from '../main';
 
 describe('Mock component', () => {
   let mockedComponent;
   beforeEach(() => {
     angular.module('some-module', []).component('someComponent', {
-      bindings: { someProp: '<', onSomePropChange: '&', onAnotherPropChange: '&' },
+      bindings: { someProp: '<', onSomePropChange: '<' },
     });
 
     angular.mock.module('some-module');
@@ -17,7 +17,7 @@ describe('Mock component', () => {
 
   describe('exists', () => {
     it('is true when in mounted template', () => {
-      mount(`
+      compile(`
         <div>Something else</div>
         <some-component></some-component>
       `);
@@ -26,13 +26,13 @@ describe('Mock component', () => {
     });
 
     it('is false when not in template', () => {
-      mount('<div>Something else</div>');
+      compile('<div>Something else</div>');
 
       expect(mockedComponent.exists()).toBe(false);
     });
 
     it('is false when not in mounted template', () => {
-      mount(`
+      compile(`
         <div>Something else</div>
         <some-component ng-if="false"></some-component>
       `);
@@ -43,13 +43,14 @@ describe('Mock component', () => {
 
   describe('props', () => {
     it('returns props', () => {
-      const props = { someProp: 'Some value', onSomePropChange: jest.fn() };
-      mount(
+      const onSomePropChange = jest.fn();
+      const props = { someProp: 'Some value', onSomePropChange };
+      compile(
         `
           <div>Something else</div>
           <some-component
             some-prop="$ctrl.someProp"
-            on-some-prop-change="$ctrl.onSomePropChange()"
+            on-some-prop-change="$ctrl.onSomePropChange"
           ></some-component>
         `,
         props,
@@ -57,8 +58,7 @@ describe('Mock component', () => {
 
       expect(mockedComponent.props()).toEqual({
         someProp: 'Some value',
-        onSomePropChange: expect.any(Function), // due to Angular's handling of callbacks
-        onAnotherPropChange: expect.any(Function), // due to Angular's handling of callbacks
+        onSomePropChange,
       });
     });
   });
@@ -66,10 +66,10 @@ describe('Mock component', () => {
   describe('prop', () => {
     it('returns prop with key', () => {
       const props = { someProp: 'Some value', onSomePropChange: jest.fn() };
-      mount(
+      compile(
         `
-        <div>Something else</div>
-        <some-component some-prop="$ctrl.someProp"></some-component>
+          <div>Something else</div>
+          <some-component some-prop="$ctrl.someProp"></some-component>
         `,
         props,
       );
@@ -79,18 +79,16 @@ describe('Mock component', () => {
   });
 
   describe('simulate', () => {
-    let component;
     let onSomePropChange;
     beforeEach(() => {
       onSomePropChange = jest.fn();
       const props = { onSomePropChange };
-      component = mount(
+      compile(
         `
         <main>
           <div ng-if="$ctrl.show">Something else</div>
           <some-component
-            on-some-prop-change="$ctrl.onSomePropChange($event)"
-            on-another-prop-change="$ctrl.show = true"
+            on-some-prop-change="$ctrl.onSomePropChange"
           ></some-component>
         </main>
         `,
@@ -104,19 +102,13 @@ describe('Mock component', () => {
       expect(onSomePropChange).toBeCalledWith('New value');
     });
 
-    it('updates view', () => {
-      expect(component.find('div').exists()).toBe(false);
-      mockedComponent.simulate('anotherPropChange');
-      expect(component.find('div').exists()).toBe(true);
-    });
-
     it('returns itself for chaining', () => {
       expect(mockedComponent.simulate('somePropChange', 'New value')).toBe(mockedComponent);
     });
   });
 
   it('has template of <!-- mock of {{ name }} -->', () => {
-    const component = mount(`
+    const component = compile(`
       <main>
         <div>Something else</div>
         <some-component></some-component>
@@ -126,3 +118,19 @@ describe('Mock component', () => {
     expect(component.find('some-component').html()).toBe('<!-- mock of some-component -->');
   });
 });
+
+function compile(template, props) {
+  let $rootScope;
+  let element;
+
+  angular.mock.inject($injector => {
+    $rootScope = $injector.get('$rootScope');
+    $rootScope.$ctrl = props;
+
+    const $compile = $injector.get('$compile');
+    element = $compile(template)($rootScope);
+  });
+  $rootScope.$digest();
+
+  return element;
+}
